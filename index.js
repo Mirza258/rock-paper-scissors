@@ -1,16 +1,33 @@
+const winMsg = "You win! ";
+const loseMsg = "You lose! ";
+const drawMsg = "DRAW! ";
+let playerScore = 0;
+let computerScore = 0;
+document.getElementById("playerScore").innerHTML = playerScore;
+document.getElementById("computerScore").innerHTML = computerScore;
+
+document.getElementById("rock").addEventListener("click", function(){ resetColors();game('rock'); });
+document.getElementById("paper").addEventListener("click", function(){ resetColors();game('paper') });
+document.getElementById("scissors").addEventListener("click", function(){ resetColors();game('scissors') });
+
+
+function resetColors() {
+    document.getElementById("rock").style.backgroundColor = "#e7e7e7";
+    document.getElementById("paper").style.backgroundColor = "#e7e7e7";
+    document.getElementById("scissors").style.backgroundColor = "#e7e7e7";
+    document.getElementById("rockComputer").style.backgroundColor = "white";
+    document.getElementById("paperComputer").style.backgroundColor = "white";
+    document.getElementById("scissorsComputer").style.backgroundColor = "white";
+}
+
 function getComputerChoice() {
     const choices = ["rock", "paper", "scissors"];
     let choice = choices[Math.floor(Math.random() * 3)];
-    console.log(choice);
     return choice;
 }
 
 
 function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toLowerCase();
-    const winMsg = "You win! ";
-    const loseMsg = "You lose! ";
-    const drawMsg = "DRAW! ";
     if (playerSelection == computerSelection) {
         // return drawMsg;
         return 0;
@@ -43,22 +60,22 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-    let playerSelection = "";
-    let computerSelection = "";
-    let playerScore = 0;
-    let computerScore = 0;
-    for(let index = 0; index < 5; index++){
-        playerSelection = prompt("Rock,paper or scissors?");
-        computerSelection = getComputerChoice();
-        if(playRound(playerSelection,computerSelection) == 1){
-            playerScore++;
-        }else if(playRound(playerSelection,computerSelection) == -1){
-            computerScore++;
-        }
+function game(playerSelection) {
+    console.log("GAMEE");
+    // playerSelection = prompt("Rock,paper or scissors?");
+    computerSelection = getComputerChoice();
+    if(playRound(playerSelection,computerSelection) == 1){
+        playerScore++;
+        document.getElementById("playerScore").innerHTML = playerScore;
+        document.getElementById(playerSelection).style.backgroundColor = "#4CAF50";
+        document.getElementById(`${computerSelection}Computer`).style.backgroundColor = "#f44336";
+    }else if(playRound(playerSelection,computerSelection) == -1){
+        computerScore++;
+        document.getElementById("computerScore").innerHTML = computerScore;
+        document.getElementById(playerSelection).style.backgroundColor = "#f44336";
+        document.getElementById(`${computerSelection}Computer`).style.backgroundColor = "#4CAF50";
+    }else{
+        document.getElementById(playerSelection).style.backgroundColor = "#008CBA";
+        document.getElementById(`${computerSelection}Computer`).style.backgroundColor = "#008CBA";
     }
-    let endMsg = "Player   " + playerScore.toString() + ":" + computerScore.toString() + "    Computer";
-    alert(endMsg);
 }
-
-game();
